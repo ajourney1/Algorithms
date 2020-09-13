@@ -14,17 +14,17 @@ using plll= pair<pll,ll>;
 ll n ,  m ;
 vector<ll> v[300005];
 unordered_map<ll,ll> whiteset , greyset , blackset;
-bool dfs(ll curr , ll par)
+bool dfs(ll curr)
 {
-    --whiteset[curr];
-    ++greyset[curr];
+    whiteset[curr] = 0;
+    greyset[curr] = 1 ;
     for(auto child : v[curr]){
         if(blackset[child]) continue;
         if(greyset[child]) return true;
-        if(dfs(child , curr)) return true;
+        if(dfs(child)) return true;
     }
-    --greyset[curr];
-    --blackset[curr];
+    greyset[curr] = 0 ;
+    blackset[curr] = 1;
     return false;
 }
 int main()
@@ -34,14 +34,14 @@ int main()
    for(ll i =1 ; i<=m;++i){
     ll x , y;
     cin >> x>> y ;
-    whiteset[x]++;
-    whiteset[y]++;
+    whiteset[x] = 1;
+    whiteset[y] = 1;
     v[x].pb(y);
    }
    ll flag = -1;
    for(ll i =1 ; i <= n ; ++i){
     if(whiteset[i]){
-        bool foo = dfs(i,-1);
+        bool foo = dfs(i);
         if(foo == true){
             flag = 0;
         }
@@ -55,41 +55,3 @@ int main()
    return 0 ;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
